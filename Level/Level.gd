@@ -3,6 +3,8 @@ extends Spatial
 var Player1_score = 0
 var Player2_score = 0
 
+export var target_score = 3
+
 func _on_GoalDetector_body_entered(body, goal_id):
 	get_tree().call_group("game_pieces", "freeze")
 	$Timer.start()
@@ -22,3 +24,9 @@ func update_score(player_id):
 			Player2_score += 1
 			new_score = Player2_score
 	$GUI.update_score(player_id, new_score)
+	check_game_over(player_id, new_score)
+
+func check_game_over(player, score):
+	if score == target_score:
+		$Timer.queue_free()
+		$GUI.game_over(player)
